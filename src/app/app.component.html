@@ -1,0 +1,22 @@
+<button (click)="onStartSuccess()">Start Successfull loading</button>
+<button (click)="onStartFailure()">Start Failure loading</button>
+<section>
+    <h1>Default settings</h1>
+    <ll-result [data]="svc.data | async">
+        <ng-container *ifSuccess="svc.data | async; let ok">
+            Here is the response: {{ok}}
+        </ng-container>
+    </ll-result>
+</section>
+
+<section>
+    <h1>Custom Loading settings</h1>
+    <ll-result [data]="svc.data | async">
+        <ng-container *ifSuccess="svc.data | async; let ok">
+            Here is the response: {{ok}}
+        </ng-container>
+        <div *ll-pending>
+            Custom Loading pane
+        </div>
+    </ll-result>
+</section>

@@ -1,0 +1,28 @@
+<ng-container *ifInitial="data">
+  <ng-container [ngSwitch]="!!initialRef">
+    <ng-container *ngSwitchCase="true">
+      <ng-template [ngTemplateOutlet]="initialRef"></ng-template>
+    </ng-container>
+    <span class="empty-block" *ngSwitchCase="false">{{ initialText }}</span>
+  </ng-container>
+</ng-container>
+
+<ng-container *ifPending="data">
+  <ng-container [ngSwitch]="!!pendingRef">
+    <ng-container *ngSwitchCase="true">
+      <ng-template [ngTemplateOutlet]="pendingRef"></ng-template>
+    </ng-container>
+    <span class="pending-block" *ngSwitchCase="false">Loading...</span>
+  </ng-container>
+</ng-container>
+
+<ng-container *ifFailure="data; let failure">
+  <ng-container [ngSwitch]="!!failureRef">
+    <ng-container *ngSwitchCase="true">
+      <ng-template [ngTemplateOutlet]="failureRef"></ng-template>
+    </ng-container>
+    <div class="error-block" *ngSwitchCase="false">Loading failed.</div>
+  </ng-container>
+</ng-container>
+
+<ng-content></ng-content>

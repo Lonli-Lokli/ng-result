@@ -1,0 +1,12 @@
+<ng-container *ifSome="maybe; else noneTemplate; let just">
+    <ng-container *ngTemplateOutlet="someTemplate; context: { $implicit: just }"></ng-container>
+  </ng-container>
+  <ng-template #noneTemplate>
+    <ng-container [ngSwitch]="!!noneRef">
+      <ng-container *ngSwitchCase="true">
+        <ng-template [ngTemplateOutlet]="noneRef"></ng-template>
+      </ng-container>
+      <span class="no-data-text" *ngSwitchCase="false">{{ noneText }}</span>
+    </ng-container>
+  </ng-template>
+  

@@ -1,0 +1,14 @@
+<ng-container *ifRight="either; else leftTemplate; let right">
+    <ng-container *ngTemplateOutlet="dataTemplate; context: { $implicit: right }"></ng-container>
+  </ng-container>
+  <ng-template #leftTemplate let-val>
+    <ng-container [ngSwitch]="!!leftRef">
+      <ng-container *ngSwitchCase="true">
+        <ng-template [ngTemplateOutlet]="leftRef"></ng-template>
+      </ng-container>
+      <div class="error-block" *ngSwitchCase="false">
+       Error happened
+      </div>
+    </ng-container>
+  </ng-template>
+  
