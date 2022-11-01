@@ -7,6 +7,9 @@ MIT
 @angular/platform-browser
 MIT
 
+@lonli-lokli/ng-result
+MIT
+
 @lonli-lokli/ts-result
 MIT
 
@@ -15,8 +18,6 @@ ISC
 
 @sweet-monads/maybe
 MIT
-
-ng-result
 
 rxjs
 Apache-2.0
