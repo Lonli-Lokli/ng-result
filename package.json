@@ -4,10 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "build:copy-assets": "",
-    "build:sources": "ng build --configuration production --base-href https://lonli-lokli.github.io/ng-result/",
-    "build:prod": "run-s build:sources build:copy-assets",
+    "build": "ng build",    
+    "build:gh": "ng build --configuration production --base-href https://lonli-lokli.github.io/ng-result/",
+    "build:library": "ng build --configuration production ng-result",    
+    "build:copy-assets": "shx cp README.md dist/ng-result",
+    "build:package": "run-s build:library build:copy-assets",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
     "test:headless": "jest --watch=false --browsers=ChromeHeadless"    

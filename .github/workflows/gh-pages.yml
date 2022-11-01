@@ -24,7 +24,7 @@ jobs:
       run: npm run test:headless
 
     - name: Build
-      run: npm run build:prod
+      run: npm run build:gh
 
     - name: Deploy
       if: success()

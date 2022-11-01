@@ -1,14 +1,27 @@
 {
-  "name": "ng-result",
-  "version": "1.0.0",
+  "name": "@lonli-lokli/ng-result",
+  "version": "1.0.2",
+  "private": false,
   "peerDependencies": {
     "@angular/common": "^12.2.0",
     "@angular/core": "^12.2.0",
-    "@lonli-lokli/ts-result": "^1.0.0",
-    "@sweet-monads/maybe": "^3.1.0",
-    "@sweet-monads/either": "^3.1.0"
+    "tslib": "^2.3.0"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
-  }
+    "@lonli-lokli/ts-result": "^1.0.1"
+  },
+  "description": " Angular Library with set of components/directives/pipes for easier work with Result union from https://github.com/Lonli-Lokli/ts-result",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lonli-Lokli/ng-result.git",
+    "directory": "projects/ng-result"
+  },
+  "keywords": [
+    "Typescript",
+    "Result",
+    "Monad",
+    "Angular"
+  ],
+  "author": "Lonli-Lokli",
+  "license": "MIT"
 }
