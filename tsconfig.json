@@ -1,4 +1,3 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -12,12 +11,12 @@
     "declaration": false,
     "downlevelIteration": true,
     "paths": {
-      "@lonli-lokli/ng-result": ["projects/ng-result/src/public-api.ts"],
+      "@lonli-lokli/ng-result": ["projects/ng-result/src/public-api.ts"]
     },
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2017",
+    "target": "es2015",
     "module": "es2020",
     "lib": [
       "es2018",

@@ -11,6 +11,9 @@
         },
         "@schematics/angular:application": {
           "strict": true
+        },
+        "@ngneat/spectator:spectator-component": {
+          "jest": true
         }
       },
       "root": "",
@@ -84,20 +87,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "app-ng-result:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-builders/jest:run",
-          "options": {
-            "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
           }
         }
       }
