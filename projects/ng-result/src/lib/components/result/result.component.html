@@ -19,7 +19,7 @@
 <ng-container *ifFailure="data; let failure">
   <ng-container [ngSwitch]="!!failureRef">
     <ng-container *ngSwitchCase="true">
-      <ng-template [ngTemplateOutlet]="failureRef"></ng-template>
+      <ng-template [ngTemplateOutlet]="failureRef" [ngTemplateOutletContext]="{ $implicit: failure }"></ng-template>
     </ng-container>
     <div class="error-block" *ngSwitchCase="false">Loading failed.</div>
   </ng-container>
