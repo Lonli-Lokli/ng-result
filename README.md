@@ -9,7 +9,7 @@
 [Demo](https://lonli-lokli.github.io/ng-result/)
 
 ## About
-[Result](https://github.com/Lonli-Lokli/ts-result) is an union of few types: ResultInitial, ResultPending, ResultFailure and ResultSuccess.
+[Result](https://github.com/Lonli-Lokli/ts-result) is an union of following types: Initial, Pending, Failure<F> and Success<S>.
 
 The problem it solving present is a very common one. You are loading a list of things but instead of showing a loading indicator you just see zero items. Same happens with actual data loading - sometimes you just do not think it will fail.
 
@@ -31,9 +31,13 @@ That is the purpose of this library - allow clean usage over this states with An
 ```html
 <ll-result [data]="data$ | async">
   <ng-container *ifSuccess="data$ | async; let ok">
-    Here is the response: {{ok}}
+    Here is the type-safe response: {{ok}}
   </ng-container>
 </ll-result>
 ```
 
 # Components
+TODO
+
+## Publish
+Run `npm run publish`

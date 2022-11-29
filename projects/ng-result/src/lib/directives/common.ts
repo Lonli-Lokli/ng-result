@@ -1,4 +1,4 @@
-import { EmbeddedViewRef, TemplateRef, ViewContainerRef } from '@angular/core';
+import { EmbeddedViewRef, TemplateRef, ViewContainerRef, ɵstringify as stringify } from '@angular/core';
 
 export interface IfContext<T = unknown> {
   $implicit: T;
@@ -43,5 +43,12 @@ export function updateView(context: IfContext, refs: Refs) {
         refs.elseViewRef = refs.viewContainer.createEmbeddedView(refs.elseTemplateRef, context);
       }
     }
+  }
+}
+
+export function assertTemplate(property: string, templateRef: TemplateRef<any> | null | undefined): void {
+  const isTemplateRefOrNull = !!(!templateRef || templateRef.createEmbeddedView);
+  if (!isTemplateRefOrNull) {
+      throw new Error(`${property} must be a TemplateRef, but received '${stringify(templateRef)}'.`);
   }
 }

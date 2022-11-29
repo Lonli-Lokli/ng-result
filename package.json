@@ -4,14 +4,17 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",    
+    "build": "ng build",  
+    "build:clean": "shx rm -rf dist",  
     "build:gh": "ng build --configuration production --base-href https://lonli-lokli.github.io/ng-result/",
     "build:library": "ng build --configuration production ng-result",    
     "build:copy-assets": "shx cp README.md dist/ng-result",
     "build:package": "run-s build:library build:copy-assets",
+    "deploy": "cd dist/ng-result && npm publish --access public",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
-    "test:headless": "jest --watch=false --browsers=ChromeHeadless"    
+    "test:headless": "jest --watch=false --browsers=ChromeHeadless",
+    "publish": "run-s build:clean test build:package deploy"
   },
   "private": true,
   "dependencies": {
@@ -23,7 +26,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
-    "@lonli-lokli/ts-result": "1.0.0",
+    "@lonli-lokli/ts-result": "1.1.0",
     "@sweet-monads/either": "3.1.0",
     "@sweet-monads/maybe": "3.1.0",
     "rxjs": "~6.6.0",

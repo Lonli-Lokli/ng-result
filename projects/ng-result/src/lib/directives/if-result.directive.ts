@@ -1,7 +1,7 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Result } from '@lonli-lokli/ts-result';
+import { isResult, Result } from '@lonli-lokli/ts-result';
 
-import { initialIfContext, initialRefs, IfContext, updateView } from './common';
+import { initialIfContext, initialRefs, IfContext, updateView, assertTemplate } from './common';
 
 @Directive({ selector: '[ifSuccess]' })
 export class IfSuccessDirective<TE = unknown, TD = unknown> {
@@ -15,7 +15,8 @@ export class IfSuccessDirective<TE = unknown, TD = unknown> {
   }
 
   @Input()
-  set ifSuccess(data: Result<TE, TD> | null) {
+  set ifSuccess(data: Result<TE, TD> | null | undefined) {
+    testIsAnResult(data, 'ifSuccess');
     if (data && data.isSuccess()) {
       data
         .mapSuccess(s => {
@@ -34,15 +35,17 @@ export class IfSuccessDirective<TE = unknown, TD = unknown> {
   }
 
   @Input()
-  set ifSuccessThen(templateRef: TemplateRef<IfContext<TE | TD>> | null) {
-    this._refs.thenTemplateRef = templateRef;
+  set ifSuccessThen(templateRef: TemplateRef<IfContext<TE | TD>> | null | undefined) {
+    assertTemplate('ifSuccessThen', templateRef);
+    this._refs.thenTemplateRef = templateRef ?? null;
     this._refs.thenViewRef = null;
     updateView(this._context, this._refs);
   }
 
   @Input()
-  set ifSuccessElse(templateRef: TemplateRef<IfContext<TE | TD>> | null) {
-    this._refs.elseTemplateRef = templateRef;
+  set ifSuccessElse(templateRef: TemplateRef<IfContext<TE | TD>> | null | undefined) {
+    assertTemplate('ifSuccessElse', templateRef);
+    this._refs.elseTemplateRef = templateRef ?? null;
     this._refs.elseViewRef = null;
     updateView(this._context, this._refs);
   }
@@ -69,7 +72,8 @@ export class IfFailureDirective<TE = unknown, TD = unknown> {
   }
 
   @Input()
-  set ifFailure(data: Result<TE, TD> | null) {
+  set ifFailure(data: Result<TE, TD> | null | undefined) {
+    testIsAnResult(data, 'ifFailure');
     if (data) {
       data
         .mapFailure(l => {
@@ -85,15 +89,17 @@ export class IfFailureDirective<TE = unknown, TD = unknown> {
   }
 
   @Input()
-  set ifFailureThen(templateRef: TemplateRef<IfContext<TE | TD>> | null) {
-    this._refs.thenTemplateRef = templateRef;
+  set ifFailureThen(templateRef: TemplateRef<IfContext<TE | TD>> | null | undefined) {
+    assertTemplate('ifFailureThen', templateRef);
+    this._refs.thenTemplateRef = templateRef ?? null;
     this._refs.thenViewRef = null;
     updateView(this._context, this._refs);
   }
 
   @Input()
-  set ifFailureElse(templateRef: TemplateRef<IfContext<TE | TD>> | null) {
-    this._refs.elseTemplateRef = templateRef;
+  set ifFailureElse(templateRef: TemplateRef<IfContext<TE | TD>> | null | undefined) {
+    assertTemplate('ifFailureElse', templateRef);
+    this._refs.elseTemplateRef = templateRef ?? null;
     this._refs.elseViewRef = null;
     updateView(this._context, this._refs);
   }
@@ -120,10 +126,11 @@ export class IfInitialDirective<TE = unknown, TD = unknown> {
   }
 
   @Input()
-  set ifInitial(data: Result<TE, TD> | null) {
+  set ifInitial(data: Result<TE, TD> | null | undefined) {
+    testIsAnResult(data, 'ifInitial');
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this._context.$implicit = null!;
-    if (data === null || data.isInitial()) {
+    if (data === null || data === undefined || data.isInitial()) {
       this._context.ifTrue = true;
     } else {
       this._context.ifTrue = false;
@@ -132,15 +139,17 @@ export class IfInitialDirective<TE = unknown, TD = unknown> {
   }
 
   @Input()
-  set ifInitialThen(templateRef: TemplateRef<IfContext<TE | TD>> | null) {
-    this._refs.thenTemplateRef = templateRef;
+  set ifInitialThen(templateRef: TemplateRef<IfContext<TE | TD>> | null | undefined) {
+    assertTemplate('ifInitialThen', templateRef);
+    this._refs.thenTemplateRef = templateRef ?? null;
     this._refs.thenViewRef = null;
     updateView(this._context, this._refs);
   }
 
   @Input()
-  set ifInitialElse(templateRef: TemplateRef<IfContext<TE | TD>> | null) {
-    this._refs.elseTemplateRef = templateRef;
+  set ifInitialElse(templateRef: TemplateRef<IfContext<TE | TD>> | null | undefined) {
+    assertTemplate('ifInitialElse', templateRef);
+    this._refs.elseTemplateRef = templateRef ?? null;
     this._refs.elseViewRef = null;
     updateView(this._context, this._refs);
   }
@@ -167,10 +176,11 @@ export class IfPendingDirective<TE = unknown, TD = unknown> {
   }
 
   @Input()
-  set ifPending(data: Result<TE, TD> | null) {
+  set ifPending(data: Result<TE, TD> | null | undefined) {
+    testIsAnResult(data, 'ifPending');
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this._context.$implicit = null!;
-    if (data !== null && data.isPending()) {
+    if (data !== null && data !== undefined && data.isPending()) {
       this._context.ifTrue = true;
     } else {
       this._context.ifTrue = false;
@@ -179,15 +189,17 @@ export class IfPendingDirective<TE = unknown, TD = unknown> {
   }
 
   @Input()
-  set ifPendingThen(templateRef: TemplateRef<IfContext<TE | TD>> | null) {
-    this._refs.thenTemplateRef = templateRef;
+  set ifPendingThen(templateRef: TemplateRef<IfContext<TE | TD>> | null | undefined) {
+    assertTemplate('ifPendingThen', templateRef);
+    this._refs.thenTemplateRef = templateRef ?? null;
     this._refs.thenViewRef = null;
     updateView(this._context, this._refs);
   }
 
   @Input()
-  set ifPendingElse(templateRef: TemplateRef<IfContext<TE | TD>> | null) {
-    this._refs.elseTemplateRef = templateRef;
+  set ifPendingElse(templateRef: TemplateRef<IfContext<TE | TD>> | null | undefined) {
+    assertTemplate('ifPendingElse', templateRef);
+    this._refs.elseTemplateRef = templateRef ?? null;
     this._refs.elseViewRef = null;
     updateView(this._context, this._refs);
   }
@@ -199,5 +211,13 @@ export class IfPendingDirective<TE = unknown, TD = unknown> {
     _ctx: any
   ): _ctx is IfContext<Exclude<TD, false | 0 | '' | null | undefined>> {
     return true;
+  }
+}
+
+function testIsAnResult(result: unknown, directiveName: string) {
+  // null should be allowe as async pipe outputs first value as null
+  const isAResult = result === null || result === undefined || isResult(result);
+  if (!isAResult) {
+      throw new Error(`Error in ${directiveName} directive. ${result} is not a Result!`);
   }
 }

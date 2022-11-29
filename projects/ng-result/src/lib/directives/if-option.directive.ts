@@ -1,7 +1,7 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Maybe } from '@sweet-monads/maybe';
+import { isMaybe, Maybe } from '@sweet-monads/maybe';
 
-import { initialIfContext, initialRefs, IfContext, updateView } from './common';
+import { initialIfContext, initialRefs, IfContext, updateView, assertTemplate } from './common';
 
 @Directive({ selector: '[ifSome]' })
 export class IfSomeDirective<T = unknown> {
@@ -15,7 +15,8 @@ export class IfSomeDirective<T = unknown> {
   }
 
   @Input()
-  set ifSome(option: Maybe<T> | null) {
+  set ifSome(option: Maybe<T> | null | undefined) {
+    testIsAMaybe(option, 'ifSome');
     if (option && option.isJust()) {
       this.context.ifTrue = true;
       this.context.$implicit = option.value;
@@ -28,15 +29,17 @@ export class IfSomeDirective<T = unknown> {
   }
 
   @Input()
-  set ifSomeThen(templateRef: TemplateRef<IfContext<T>> | null) {
-    this.refs.thenTemplateRef = templateRef;
+  set ifSomeThen(templateRef: TemplateRef<IfContext<T>> | null | undefined) {
+    assertTemplate('ifSomeThen', templateRef);
+    this.refs.thenTemplateRef = templateRef ?? null;
     this.refs.thenViewRef = null;
     updateView(this.context, this.refs);
   }
 
   @Input()
-  set ifSomeElse(templateRef: TemplateRef<IfContext<T>> | null) {
-    this.refs.elseTemplateRef = templateRef;
+  set ifSomeElse(templateRef: TemplateRef<IfContext<T>> | null | undefined) {
+    assertTemplate('ifSomeElse', templateRef);
+    this.refs.elseTemplateRef = templateRef ?? null;
     this.refs.elseViewRef = null;
     updateView(this.context, this.refs);
   }
@@ -63,10 +66,11 @@ export class IfNoneDirective<T = unknown> {
   }
 
   @Input()
-  set ifNone(option: Maybe<T> | null) {
+  set ifNone(option: Maybe<T> | null | undefined) {
+    testIsAMaybe(option, 'ifNone');
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.context.$implicit = null!;
-    if (option === null || option.isNone()) {
+    if (option === null || option === undefined || option.isNone()) {
       this.context.ifTrue = true;
     } else {
       this.context.ifTrue = false;
@@ -75,15 +79,17 @@ export class IfNoneDirective<T = unknown> {
   }
 
   @Input()
-  set ifNoneThen(templateRef: TemplateRef<IfContext<T>> | null) {
-    this.refs.thenTemplateRef = templateRef;
+  set ifNoneThen(templateRef: TemplateRef<IfContext<T>> | null | undefined) {
+    assertTemplate('ifNoneThen', templateRef);
+    this.refs.thenTemplateRef = templateRef ?? null;
     this.refs.thenViewRef = null;
     updateView(this.context, this.refs);
   }
 
   @Input()
-  set ifNoneElse(templateRef: TemplateRef<IfContext<T>> | null) {
-    this.refs.elseTemplateRef = templateRef;
+  set ifNoneElse(templateRef: TemplateRef<IfContext<T>> | null | undefined) {
+    assertTemplate('ifNoneElse', templateRef);
+    this.refs.elseTemplateRef = templateRef ?? null;
     this.refs.elseViewRef = null;
     updateView(this.context, this.refs);
   }
@@ -95,5 +101,13 @@ export class IfNoneDirective<T = unknown> {
     _ctx: any
   ): _ctx is IfContext<Exclude<T, false | 0 | '' | null | undefined>> {
     return true;
+  }
+}
+
+function testIsAMaybe(item: unknown, directiveName: string) {
+  // null should be allowe as async pipe outputs first value as null
+  const isAMaybe = item === null || item === undefined || isMaybe(item);
+  if (!isAMaybe) {
+      throw new Error(`Error in ${directiveName} directive. ${item} is not a Maybe!`);
   }
 }
